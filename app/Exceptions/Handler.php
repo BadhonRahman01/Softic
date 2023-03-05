@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -45,4 +46,21 @@ class Handler extends ExceptionHandler
             //
         });
     }
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+
+        if ($request->is('admin') || $request->is('admin/*')) {
+            return redirect()->guest('/admin');
+        }
+        
+        if ($request->is('affiliate') || $request->is('affiliate/*')) {
+            return redirect()->guest('/affiliate');
+        }
+        
+        return redirect()->guest(route('login'));
+    }
+
 }
