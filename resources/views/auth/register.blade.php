@@ -64,7 +64,22 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                        @if(!isset($route))
+                        <div class="row mb-3">
+                            <label for="dob" class="col-md-4 col-form-label text-md-end">Date of Birth</label>
 
+                            <div class="col-md-6">
+                                <input type="date" id="dob" name="dob" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="promo_code" class="col-md-4 col-form-label text-md-end">Promo Code</label>
+
+                            <div class="col-md-6">
+                                <input type="string" id="promo_code" name="promo_code" required>
+                            </div>
+                        </div>
+                        @endif
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

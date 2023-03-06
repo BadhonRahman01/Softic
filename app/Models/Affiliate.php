@@ -16,6 +16,8 @@ class Affiliate extends Authenticatable
         'name',
         'email',
         'password',
+        'commission_money',
+        'promo',
     ];
 
     protected $hidden = [

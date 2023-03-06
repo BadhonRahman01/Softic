@@ -33,13 +33,17 @@ Route::get('/admin/dashboard',function(){
     return view('admin');
 })->middleware('auth:admin');
 
+Route::resource('/admin/affiliates', 'App\Http\Controllers\AffiliateController')->middleware('auth:admin');
+
 //for affiliates
 Route::get('/affiliate',[LoginController::class,'showAffiliateLoginForm'])->name('affiliate.login-view');
 Route::post('/affiliate',[LoginController::class,'affiliateLogin'])->name('affiliate.login');
 
-Route::get('/affiliate/register',[RegisterController::class,'showAffiliateRegisterForm'])->name('affiliate.register-view');
-Route::post('/affiliate/register',[RegisterController::class,'createAffiliate'])->name('affiliate.register');
+// Route::get('/affiliate/register',[RegisterController::class,'showAffiliateRegisterForm'])->name('affiliate.register-view');
+// Route::post('/affiliate/register',[RegisterController::class,'createAffiliate'])->name('affiliate.register');
 
 Route::get('/affiliate/dashboard',function(){
     return view('affiliate');
 })->middleware('auth:affiliate');
+
+Route::resource('/affiliate/subaffiliates', 'App\Http\Controllers\SubaffiliateController')->middleware('auth:affiliate');

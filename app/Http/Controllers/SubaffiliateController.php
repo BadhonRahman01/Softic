@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subaffiliate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class SubaffiliateController extends Controller
 {
@@ -12,7 +13,10 @@ class SubaffiliateController extends Controller
      */
     public function index()
     {
-        //
+        $subaffiliates = Subaffiliate::latest()->paginate(5);
+    
+        return view('subaffiliates.index',compact('subaffiliates'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -20,7 +24,7 @@ class SubaffiliateController extends Controller
      */
     public function create()
     {
-        //
+        return view('subaffiliates.create');
     }
 
     /**
@@ -28,7 +32,29 @@ class SubaffiliateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $subaffiliate = $request->validate([
+            'name' => 'required',
+            'email' =>  'required',
+            'password' => 'required',
+            'commission_money' => 'nullable',
+            'promo' => 'required',
+            'affiliate_id' => 'required',
+        ]);
+        $length = 10;
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+        $subaffiliate['promo'] = $randomString;
+        $subaffiliate['password'] = Hash::make($request->password);
+
+
+        Subaffiliate::create($subaffiliate);
+     
+        return redirect()->route('subaffiliates.index')
+                        ->with('success','Sub-Affiliate created successfully.');
     }
 
     /**
@@ -60,6 +86,9 @@ class SubaffiliateController extends Controller
      */
     public function destroy(Subaffiliate $subaffiliate)
     {
-        //
+        $subaffiliate->delete();
+    
+        return redirect()->route('subaffiliates.index')
+                        ->with('success','Sub-affiliate deleted successfully');
     }
 }
