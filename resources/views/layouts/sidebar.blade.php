@@ -83,13 +83,13 @@
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Affiliates</span>
                         </a>
                     </li>
-                    <li onclick="window.location='{{ url('/admin/subaffiliates') }}'" style="width:500%;cursor:pointer;">
-                        <a href="/admin/subaffiliates" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Sub-Affiliates</span></a>
-                    </li>
                     <li onclick="window.location='{{ url('/admin/users') }}'" style="width:500%;cursor:pointer;">
-                        <a href="/admin/subaffiliates" class="nav-link px-0 align-middle">
+                        <a href="/admin/users" class="nav-link px-0 align-middle">
                             <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Users</span> </a>
+                    </li>
+                    <li onclick="window.location='{{ url('/admin/transactions') }}'" style="width:500%;cursor:pointer;">
+                        <a href="/admin/transactions" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Transactions</span></a>
                     </li>
                 </ul>
                 <hr>
