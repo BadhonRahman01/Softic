@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\HomeController;
+use App\Models\Transaction;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +24,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth:web');
+Route::get('/home', function () {
+    return view('home',[
+        'trans' => Transaction::where('user_id', Auth::user()->id)->get(),
+    ]);
+})->middleware('auth:web');
+// Route::get('send', [HomeController::class,'sendNotification'])->middleware('auth:web');
+
 //for users
 Route::resource('/home/transactions', 'App\Http\Controllers\TransactionController')->middleware('auth:web');
 Route::post('/home/transactions/create',[TransactionController::class,'store'])->name('home.addmoney')->middleware('auth:web');

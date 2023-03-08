@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Subaffiliate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Transaction;
 
 class SubaffiliateController extends Controller
 {
@@ -14,8 +15,8 @@ class SubaffiliateController extends Controller
     public function index()
     {
         $subaffiliates = Subaffiliate::latest()->paginate(5);
-    
-        return view('subaffiliates.index',compact('subaffiliates'))
+        $total_commission = Transaction::where('subaffiliate_commission','!=', 'NULL')->sum('subaffiliate_commission');
+        return view('subaffiliates.index',compact('subaffiliates','total_commission'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 

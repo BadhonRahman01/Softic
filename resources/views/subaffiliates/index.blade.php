@@ -39,7 +39,7 @@
         <td>{{ $aff->id }}</td>
         <td>{{ $aff->name }}</td>
         <td>{{ $aff->email }}</td>
-        <td>{{ $aff->commission_money }}</td>
+        <td>{{ $total_commission }}</td>
         <td>{{ $aff->promo }}</td>
         <td>{{ $aff->affiliate_id }}</td>
         <td style="text-align:center;">

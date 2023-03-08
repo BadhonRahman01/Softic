@@ -1,3 +1,5 @@
+
+
 @extends('layouts.app')
 
 @section('content')
@@ -18,8 +20,8 @@
                     
                 </div>
             </div>
-            <button type="button" class="btn btn-success" onclick="window.location='{{ url('/home/transactions.create') }}'">Add Money</button>
-            <button type="button" class="btn btn-warning">See All Transactions</button>
+            {{-- <button type="button" class="btn btn-success" onclick="window.location='{{ url('/home/transactions.create') }}'">Add Money</button>
+            <button type="button" class="btn btn-warning">See All Transactions</button> --}}
 
             {{-- addmoney --}}
 
@@ -38,7 +40,11 @@
                     </ul>
                 </div>
             @endif
-               
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
             <form action="{{ route('home.addmoney') }}" class="px-5 d-flex justify-content-center" method="POST">
                 @csrf
               
@@ -59,6 +65,26 @@
             </form>
 
             {{-- endaddmoney --}}
+                <h2 style="text-align: center;margin-top:50px;">Transaction History</h2>
+
+                <table class="table table-success table-striped">
+                    <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">Amount</th>
+                          <th scope="col">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach ($trans as $tran)
+                        <tr>
+                            <th scope="row">{{$tran->id}}</th>
+                            <td>{{$tran->amount}}</td>
+                            <td>{{date('d-m-Y', strtotime($tran->created_at))}}</td>
+                          </tr>
+                        @endforeach
+                      </tbody>
+                  </table>
         </div>
     </div>
 </div>

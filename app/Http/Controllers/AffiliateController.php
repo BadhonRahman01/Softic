@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Affiliate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Transaction;
 
 class AffiliateController extends Controller
 {
@@ -14,8 +15,8 @@ class AffiliateController extends Controller
     public function index()
     {
         $affiliates = Affiliate::latest()->paginate(5);
-    
-        return view('affiliates.index',compact('affiliates'))
+        $total_commission = Transaction::where('affilate_commission','!=', 'NULL')->sum('affilate_commission');
+        return view('affiliates.index',compact('affiliates','total_commission'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 

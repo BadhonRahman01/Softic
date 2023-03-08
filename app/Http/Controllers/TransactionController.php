@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Affiliate;
 use App\Models\Subaffiliate;
+use App\Events\MoneyAdded;
+use Event;
+use Notification;
+use App\Notifications\CommissionNotification;
 
 class TransactionController extends Controller
 {
@@ -56,17 +60,41 @@ class TransactionController extends Controller
             $aff = Affiliate::where('promo', $user->promo_code)->get();
 
             $subaff = Subaffiliate::where('promo', $user->promo_code)->get();
+            
 
             if(isset($aff[0]->promo)){
                 $transaction['affilate_commission'] = ($transaction['amount']*30)/100;
+                            // event_calling MoneyAdded
+                            $cdata = ['user_type' => 'Affiliate',
+                            'aff_id' => $aff[0]->id,
+                            'aff_name' => $aff[0]->name,
+                            'aff_email' => $aff[0]->email,
+                         'user_id' => $user->id,
+                          'user' => $user->name, 
+                          'amount' => $transaction['affilate_commission'], 
+                          'date' => date(now())];
+                        event(new MoneyAdded($cdata));
+
                 Transaction::create($transaction);
-     
+
+
                 return redirect()->back()
                                 ->with('success','Money Added successfully.');
             }else{
                 $transaction['affilate_commission'] = ($transaction['amount']*10)/100;
                 $transaction['subaffiliate_commission'] = ($transaction['amount']*20)/100;
-
+                            // event_calling MoneyAdded
+                            $cdata = ['user_type' => 'Sub-Affiliate',
+                            'aff_id' => $subaff[0]->affiliate_id,
+                            'subaff_id' => $subaff[0]->id,
+                            'subaff_name' => $subaff[0]->name,
+                            'subaff_email' => $subaff[0]->email,
+                         'user_id' => $user->id,
+                          'user' => $user->name, 
+                          'aff_amount' => $transaction['affilate_commission'], 
+                          'sub_amount' => $transaction['subaffiliate_commission'], 
+                          'date' => date(now())];
+                        event(new MoneyAdded($cdata));
                 Transaction::create($transaction);
      
                 return redirect()->back()
