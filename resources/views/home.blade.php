@@ -20,9 +20,9 @@
                     
                 </div>
             </div>
-            {{-- <button type="button" class="btn btn-success" onclick="window.location='{{ url('/home/transactions.create') }}'">Add Money</button>
-            <button type="button" class="btn btn-warning">See All Transactions</button> --}}
-
+            {{-- <button type="button" class="btn btn-success" onclick="window.location='{{ url('/home/transactions.create') }}'">Add Money</button> --}}
+            <button type="button" class="btn btn-warning" onclick="window.location='{{ url('/home/transactions/mylist') }}'">See All Transactions</button>
+            <h1> My Total Money: {{$total_money}}</h1>
             {{-- addmoney --}}
 
                     <div class="justify-content-center">
@@ -65,7 +65,7 @@
             </form>
 
             {{-- endaddmoney --}}
-                <h2 style="text-align: center;margin-top:50px;">Transaction History</h2>
+                <h2 style="text-align: center;margin-top:50px;">Transactions History</h2>
 
                 <table class="table table-success table-striped">
                     <thead>

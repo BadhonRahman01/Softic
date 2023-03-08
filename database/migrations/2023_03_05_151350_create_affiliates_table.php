@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->double('commission_money')->nullable();
+            $table->double('commission_money')->nullable()->default(0);
             $table->string('promo')->unique();
             $table->timestamps();
         });

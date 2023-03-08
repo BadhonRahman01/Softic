@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\HomeController;
 use App\Models\Transaction;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,13 @@ Auth::routes();
 Route::get('/home', function () {
     return view('home',[
         'trans' => Transaction::where('user_id', Auth::user()->id)->get(),
+        'total_money' => Transaction::where('user_id', Auth::user()->id)->sum('amount'),
+    ]);
+})->middleware('auth:web');
+Route::get('/home/transactions/mylist', function () {
+    return view('usertran',[
+        'transactions' => Transaction::where('user_id', Auth::user()->id)->get(),
+        'total_money' => Transaction::where('user_id', Auth::user()->id)->sum('amount'),
     ]);
 })->middleware('auth:web');
 // Route::get('send', [HomeController::class,'sendNotification'])->middleware('auth:web');
@@ -38,9 +46,9 @@ Route::post('/home/transactions/create',[TransactionController::class,'store'])-
 // for admin
 Route::get('/admin',[LoginController::class,'showAdminLoginForm'])->name('admin.login-view');
 Route::post('/admin',[LoginController::class,'adminLogin'])->name('admin.login');
-
 Route::get('/admin/register',[RegisterController::class,'showAdminRegisterForm'])->name('admin.register-view');
 Route::post('/admin/register',[RegisterController::class,'createAdmin'])->name('admin.register');
+
 
 
 Route::get('/admin/dashboard',function(){
@@ -59,7 +67,11 @@ Route::post('/affiliate',[LoginController::class,'affiliateLogin'])->name('affil
 // Route::post('/affiliate/register',[RegisterController::class,'createAffiliate'])->name('affiliate.register');
 
 Route::get('/affiliate/dashboard',function(){
-    return view('affiliate');
+    return view('affiliate',[
+        'transactions' => Transaction::where('affilate_commission', '!=', 'NULL')->get(),
+        'users' => User::all(),
+        'aff' => Auth::user()->promo,
+    ]);
 })->middleware('auth:affiliate');
 
 Route::resource('/affiliate/subaffiliates', 'App\Http\Controllers\SubaffiliateController')->middleware('auth:affiliate');

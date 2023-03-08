@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->date('dob');
             $table->string('promo_code')->nullable();
+            $table->double('money')->nullable()->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

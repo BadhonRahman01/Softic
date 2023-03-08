@@ -38,7 +38,7 @@
         <td>{{ $aff->id }}</td>
         <td>{{ $aff->name }}</td>
         <td>{{ $aff->email }}</td>
-        <td>{{ $total_commission }}</td>
+        <td>{{ $aff->commission_money }}</td>
         <td>{{ $aff->promo }}</td>
         <td style="text-align:center;">
             <form action="{{ route('affiliates.destroy',$aff->id) }}" method="POST">

@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'dob',
         'promo_code',
+        'money',
     ];
 
     /**

@@ -39,7 +39,7 @@
         <td>{{ $us->email }}</td>
         <td>{{ $us->dob }}</td>
         <td>{{ $us->promo_code }}</td>
-        <td></td>
+        <td>{{ $us->money }}</td>
         <td style="text-align:center;">
             <form action="{{ route('users.destroy',$us->id) }}" method="POST">
                 @csrf

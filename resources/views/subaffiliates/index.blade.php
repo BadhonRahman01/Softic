@@ -7,7 +7,7 @@
 <div class="row px-3">
     <div class="col-lg-12 margin-tb py-3">
         <div class="pull-left">
-            <h2 style="font-weight:bold;">Sub-Affiliate LIST</h2>
+            <h2 style="font-weight:bold;">My Sub-Affiliate LIST</h2>
         </div>
         <div class="pull-right" style="float: right;">
             <a class="btn btn-success" href="{{ route('subaffiliates.create') }}"> Create a Sub-Affiliate</a>
@@ -34,12 +34,13 @@
         <th >Action</th>
     </tr>
     @foreach ($subaffiliates as $aff)
+    @if (Auth::user()->id == $aff->affiliate_id)
     <tr>
         <td>{{ ++$i }}</td>
         <td>{{ $aff->id }}</td>
         <td>{{ $aff->name }}</td>
         <td>{{ $aff->email }}</td>
-        <td>{{ $total_commission }}</td>
+        <td>{{ $aff->commission_money }}</td>
         <td>{{ $aff->promo }}</td>
         <td>{{ $aff->affiliate_id }}</td>
         <td style="text-align:center;">
@@ -56,6 +57,8 @@
             </form>
         </td>
     </tr>
+    @endif
+   
     @endforeach
 </table>
 

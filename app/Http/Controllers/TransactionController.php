@@ -38,7 +38,13 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {   $user = User::find($request->user_id);
-
+        if($user->money == null){
+            $user->money = $request->amount; 
+        }else{
+            $user->money = $user->money + $request->amount; 
+        }
+        $user->save(); 
+        
         if($user->promo_code == null){
             $request->validate([
                 'amount' => 'required',
@@ -74,6 +80,13 @@ class TransactionController extends Controller
                           'amount' => $transaction['affilate_commission'], 
                           'date' => date(now())];
                         event(new MoneyAdded($cdata));
+                        $affiliate = Affiliate::find($aff[0]->id); 
+                        if($affiliate->commission_money == null){
+                            $affiliate->commission_money =  $transaction['affilate_commission']; 
+                        }else{
+                            $affiliate->commission_money = $affiliate->commission_money + $transaction['affilate_commission']; 
+                        }
+                        $affiliate->save(); 
 
                 Transaction::create($transaction);
 
@@ -95,6 +108,22 @@ class TransactionController extends Controller
                           'sub_amount' => $transaction['subaffiliate_commission'], 
                           'date' => date(now())];
                         event(new MoneyAdded($cdata));
+                        $affiliate = Affiliate::find($subaff[0]->affiliate_id); 
+                        if($affiliate->commission_money == null){
+                            $affiliate->commission_money =  $transaction['affilate_commission']; 
+                        }else{
+                            $affiliate->commission_money = $affiliate->commission_money + $transaction['affilate_commission']; 
+                        }
+                        $affiliate->save(); 
+                        $subaffiliate = Subaffiliate::find($subaff[0]->id); 
+                        if($subaffiliate->commission_money == null){
+                            $subaffiliate->commission_money = $transaction['subaffiliate_commission']; 
+                        }else{
+                            $subaffiliate->commission_money = $subaffiliate->commission_money+ $transaction['subaffiliate_commission']; 
+                        }
+                        $subaffiliate->save(); 
+                        
+                        
                 Transaction::create($transaction);
      
                 return redirect()->back()

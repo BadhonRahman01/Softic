@@ -76,7 +76,7 @@
                             <label for="promo_code" class="col-md-4 col-form-label text-md-end">Promo Code</label>
 
                             <div class="col-md-6">
-                                <input type="string" id="promo_code" name="promo_code" required>
+                                <input type="string" id="promo_code" name="promo_code">
                             </div>
                         </div>
                         @endif
